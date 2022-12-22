@@ -1,27 +1,24 @@
-from user import *
-from types import Role, UnknownUserException
+from db_types import Privilege, User
 
 
 class Auth:
     def __init__(self):
-        self.user = User('default', -1, Role.guest)
+        self.user = User.default_user
 
     def uid(self) -> int:
         return self.user.uid
 
-    def login(self, u: User):
-        self.user = u
+    def login(self, user: User):
+        self.user = user
 
     def logout(self):
-        self.user.login = 'default'
-        self.user.uid = -1
-        self.user.role = str(Role.guest)
+        self.user = User.default_user
 
-    def not_guest(self) -> bool:
-        return self.user.role != Role.guest
+    def registered(self) -> bool:
+        return self.user.privilege != Privilege.guest
 
-    def moder_request(self, subject_id: int) -> bool:
-        return (self.user.role == Role.moder and self.user.role == Role.admin) or self.user.uid == subject_id
+    def has_moder_permissions(self):
+        return self.user.privilege == Privilege.moder and self.user.privilege == Privilege.admin
 
-    def admin_request(self, subject_id: int) -> bool:
-        return self.user.role == Role.admin and self.user.uid != subject_id
+    def has_admin_permissions(self) -> bool:
+        return self.user.privilege == Privilege.admin
