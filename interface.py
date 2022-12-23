@@ -120,7 +120,10 @@ class Interface:
             case "5":
                 post_id = int(input('Enter post id: '))
                 new_post = input('Enter new post: \n')
-                self.actions.change_post(post_id, new_post)
+                if self.current_user.uid == post_id:
+                    self.actions.change_post(post_id, new_post)
+                else:
+                    print("Permission deny")
             case "6":
                 user_login = input('Enter user login: ')
                 print("Choose the order\n1 - from new to old\n2 - from old to new\n")
