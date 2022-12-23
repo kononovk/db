@@ -120,7 +120,8 @@ class Interface:
             case "5":
                 post_id = int(input('Enter post id: '))
                 new_post = input('Enter new post: \n')
-                if self.current_user.uid == post_id:
+                user_id = self.actions.get_user_id_by_post_id(post_id)
+                if self.current_user.uid == user_id:
                     self.actions.change_post(post_id, new_post)
                 else:
                     print("Permission deny")

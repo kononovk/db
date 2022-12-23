@@ -62,6 +62,13 @@ class Actions:
             DELETE FROM posts WHERE post_id=%(post_id)s;
             """, {'post_id': post_id})
 
+    def get_user_id_by_post_id(self, post_id: int):
+        self.cursor.execute("""
+        SELECT user_id FROM posts WHERE post_id=%(post_id)s;
+        """, {'post_id': post_id})
+        user_id, = self.cursor.fetchone()
+        return user_id
+
     def change_post(self, post_id: int, new_post: str) -> None:
         self.cursor.execute(
             """
